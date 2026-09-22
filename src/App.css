@@ -1,0 +1,30 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.app__header {
+  text-align: center;
+  padding: 20px 16px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.app__title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.5px;
+  margin: 0 0 4px;
+}
+
+.app__subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.app__main {
+  flex: 1;
+  padding-bottom: 32px;
+}
