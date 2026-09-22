@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Audio Test</h1>
+<audio id="player" controls src="/audio/goblin.mp3"></audio>
+<br><br>
+<button onclick="document.getElementById('player').play()">Play</button>
+<p id="status"></p>
+<script>
+const a = document.getElementById('player');
+a.addEventListener('error', (e) => {
+  document.getElementById('status').textContent = 'Error: ' + JSON.stringify(e.target.error);
+});
+a.addEventListener('canplaythrough', () => {
+  document.getElementById('status').textContent = 'Ready to play! Duration: ' + a.duration;
+});
+a.addEventListener('loadstart', () => {
+  document.getElementById('status').textContent = 'Loading...';
+});
+</script>
+</body>
+</html>

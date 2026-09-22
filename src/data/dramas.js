@@ -1,4 +1,4 @@
-export const DURATIONS = [0.1, 0.3, 0.75, 2, 5, 10];
+export const DURATIONS = [0.75, 1.5, 5, 10];
 export const MAX_GUESSES = DURATIONS.length;
 
 export const DRAMAS = [

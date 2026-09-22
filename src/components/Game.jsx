@@ -34,7 +34,7 @@ function AudioBar({ duration, maxDuration, playing, onPlay, audioError }) {
       </div>
 
       <span className="audio-bar__time">
-        {duration >= 1 ? `${duration}s` : `${(duration * 1000).toFixed(0)}ms`}
+        {duration}s
         <span className="audio-bar__time-max"> / {maxDuration}s</span>
       </span>
 
@@ -138,11 +138,7 @@ function GuessRow({ guess, index: rowIdx, current }) {
         <span className="guess-row__label">
           {current ? '▶ Your turn' : ''}
         </span>
-        <span className="guess-row__duration">
-          {DURATIONS[rowIdx] >= 1
-            ? `${DURATIONS[rowIdx]}s`
-            : `${(DURATIONS[rowIdx] * 1000).toFixed(0)}ms`}
-        </span>
+        <span className="guess-row__duration">{DURATIONS[rowIdx]}s</span>
       </div>
     );
   }
@@ -178,38 +174,47 @@ export default function Game() {
     [guesses]
   );
 
-  useEffect(() => {
-    const audio = new Audio(drama.audio);
-    audioRef.current = audio;
-    setAudioError(false);
+  const dramaIdRef = useRef(null);
 
-    audio.addEventListener('error', () => setAudioError(true));
-    audio.addEventListener('ended', () => setPlaying(false));
-
-    return () => {
-      clearTimeout(timerRef.current);
-      audio.pause();
-      audio.removeEventListener('error', () => setAudioError(true));
-      audio.removeEventListener('ended', () => setPlaying(false));
-      audio.src = '';
-    };
-  }, [drama]);
-
-  const playSnippet = useCallback(() => {
-    const audio = audioRef.current;
-    if (!audio || audioError) return;
+  function loadAudio() {
+    if (dramaIdRef.current === drama.id) return;
+    dramaIdRef.current = drama.id;
 
     clearTimeout(timerRef.current);
+    if (audioRef.current) {
+      audioRef.current.pause();
+    }
+
+    const audio = new Audio(drama.audio);
+    audio.preload = 'auto';
+    audioRef.current = audio;
+    setAudioError(false);
+    setPlaying(false);
+    audio.load();
+  }
+
+  loadAudio();
+
+  function playSnippet() {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    clearTimeout(timerRef.current);
+    audio.pause();
     audio.currentTime = 0;
+
+    const dur = gameOver ? 10 : currentDuration;
     audio.play().then(() => {
       setPlaying(true);
-      const dur = gameOver ? 10 : currentDuration;
       timerRef.current = setTimeout(() => {
         audio.pause();
         setPlaying(false);
       }, dur * 1000);
-    }).catch(() => setAudioError(true));
-  }, [currentDuration, gameOver, audioError]);
+    }).catch((err) => {
+      console.error('Play failed:', err);
+      setAudioError(true);
+    });
+  }
 
   function handleGuess(dramaResult) {
     if (gameOver) return;
@@ -240,6 +245,7 @@ export default function Game() {
     if (audioRef.current) {
       audioRef.current.pause();
     }
+    dramaIdRef.current = null;
     const next = getRandomPuzzle(puzzleIdx);
     setPuzzleState(next);
     setGuesses([]);
@@ -279,9 +285,7 @@ export default function Game() {
         <div className="game__controls">
           <DramaSearch onGuess={handleGuess} disabled={gameOver} exclude={excludeIds} />
           <button className="game__skip" onClick={handleSkip}>
-            Skip ({DURATIONS[Math.min(round + 1, MAX_GUESSES - 1)] >= 1
-              ? `+${(DURATIONS[Math.min(round + 1, MAX_GUESSES - 1)] - currentDuration).toFixed(2)}s`
-              : `hear more`})
+            Skip (hear {DURATIONS[Math.min(round + 1, MAX_GUESSES - 1)]}s)
           </button>
         </div>
       )}
