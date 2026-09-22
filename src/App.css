@@ -2,12 +2,16 @@
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
+  position: relative;
 }
 
 .app__header {
   text-align: center;
   padding: 20px 16px 16px;
   border-bottom: 1px solid var(--border);
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .app__title {
@@ -16,6 +20,7 @@
   color: var(--text);
   letter-spacing: -0.5px;
   margin: 0 0 4px;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
 }
 
 .app__subtitle {
