@@ -9,6 +9,14 @@ function seededRandom(seed) {
   };
 }
 
+const ACTOR_IMAGES = [
+  'gong-yoo', 'kim-soo-hyun', 'iu', 'lee-min-ho', 'song-joong-ki',
+  'park-seo-joon', 'son-ye-jin', 'hyun-bin', 'song-hye-kyo', 'lee-jong-suk',
+  'park-bo-gum', 'kim-ji-won', 'wi-ha-joon', 'lee-do-hyun', 'jung-hae-in',
+  'cha-eun-woo', 'kim-se-jeong', 'park-min-young', 'bae-suzy',
+  'lee-sung-kyung', 'nam-joo-hyuk', 'kim-go-eun', 'park-shin-hye', 'shin-min-a',
+];
+
 export default function Background() {
   const fireflies = useMemo(() => {
     const rng = seededRandom(42);
@@ -55,6 +63,11 @@ export default function Background() {
     return rows;
   }, []);
 
+  const actorFaces = useMemo(() => {
+    const shuffled = [...ACTOR_IMAGES].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, 5);
+  }, []);
+
   return (
     <div className="bg" aria-hidden="true">
       <svg
@@ -92,6 +105,11 @@ export default function Background() {
             <stop offset="50%" stopColor="#ffb84d" stopOpacity="0.1" />
             <stop offset="100%" stopColor="#ffb84d" stopOpacity="0" />
           </radialGradient>
+          {actorFaces.map((face, i) => (
+            <pattern key={`face-${i}`} id={`face${i}`} patternUnits="objectBoundingBox" patternContentUnits="objectBoundingBox" width="1" height="1">
+              <image href={`/actors/${face}.jpg`} x="0" y="0" width="1" height="1" preserveAspectRatio="xMidYMid slice" />
+            </pattern>
+          ))}
         </defs>
 
         {/* Night sky */}
@@ -262,7 +280,7 @@ export default function Background() {
 
           {/* HIM - tall, long navy wool coat, styled hair, scarf */}
           {/* Head */}
-          <ellipse cx="178" cy="232" rx="5" ry="5.5" fill="#2a2238" />
+          <ellipse cx="178" cy="232" rx="5" ry="5.5" fill="url(#face0)" stroke="rgba(167,139,250,0.3)" strokeWidth="0.4" />
           {/* Styled hair - textured top, swept side part */}
           <path d="M173 231 Q174 225 178 224 Q182 225 183 231" fill="#1a1528" />
           <path d="M174 230 Q176 226 179 226 Q175 228 174 231" fill="#12101e" />
@@ -302,7 +320,7 @@ export default function Background() {
 
           {/* HER - slightly shorter, long wavy hair, cream coat, holding his hand */}
           {/* Head */}
-          <ellipse cx="198" cy="235" rx="4.8" ry="5.2" fill="#2a2238" />
+          <ellipse cx="198" cy="235" rx="4.8" ry="5.2" fill="url(#face1)" stroke="rgba(167,139,250,0.3)" strokeWidth="0.4" />
           {/* Long wavy hair - flowing down past shoulders */}
           <path d="M193 234 Q192 240 191 250 Q190.5 255 191 258" stroke="#1a1528" strokeWidth="3" strokeLinecap="round" fill="none" />
           <path d="M203 234 Q204 240 204.5 250 Q205 255 204.5 257" stroke="#1a1528" strokeWidth="2.5" strokeLinecap="round" fill="none" />
@@ -349,7 +367,7 @@ export default function Background() {
         <g opacity="0.55">
           <animateTransform attributeName="transform" type="translate" values="460,0;-100,0" dur="65s" repeatCount="indefinite" />
           {/* Head */}
-          <ellipse cx="300" cy="240" rx="4" ry="4.5" fill="#2a2238" />
+          <ellipse cx="300" cy="240" rx="4" ry="4.5" fill="url(#face2)" stroke="rgba(167,139,250,0.3)" strokeWidth="0.4" />
           {/* Beret */}
           <ellipse cx="300" cy="237" rx="5.5" ry="2.5" fill="#4a2838" />
           <ellipse cx="300" cy="238" rx="4" ry="1.5" fill="#552d40" />
@@ -380,14 +398,14 @@ export default function Background() {
         <g opacity="0.4">
           <animateTransform attributeName="transform" type="translate" values="-50,0;440,0" dur="75s" repeatCount="indefinite" />
           {/* Him - shorter figure due to distance */}
-          <ellipse cx="75" cy="252" rx="3" ry="3.3" fill="#1e1a2a" />
+          <ellipse cx="75" cy="252" rx="3" ry="3.3" fill="url(#face3)" />
           <path d="M72 255 L71.5 268 L74 268 L74.5 261 L75.5 261 L76 268 L78.5 268 L78 255 Z" fill="#1e2538" />
           <line x1="73" y1="268" x2="72.5" y2="276" stroke="#18162a" strokeWidth="2" strokeLinecap="round" />
           <line x1="77" y1="268" x2="77.5" y2="276" stroke="#18162a" strokeWidth="2" strokeLinecap="round" />
           <ellipse cx="72" cy="276.5" rx="2" ry="0.8" fill="#12101e" />
           <ellipse cx="78" cy="276.5" rx="2" ry="0.8" fill="#12101e" />
           {/* Her */}
-          <ellipse cx="84" cy="253.5" rx="2.8" ry="3" fill="#1e1a2a" />
+          <ellipse cx="84" cy="253.5" rx="2.8" ry="3" fill="url(#face4)" />
           <path d="M81 253 Q80 258 80.5 262" stroke="#1a1528" strokeWidth="1.8" fill="none" strokeLinecap="round" />
           <path d="M87 253 Q88 257 87.5 261" stroke="#1a1528" strokeWidth="1.5" fill="none" strokeLinecap="round" />
           <path d="M81 256 L80.5 268 L83 268 L83.5 262 L84.5 262 L85 268 L87.5 268 L87 256 Z" fill="#3d3838" />

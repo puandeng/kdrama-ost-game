@@ -293,6 +293,12 @@
   background: var(--hover);
 }
 
+.drama-search__ko {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-left: 6px;
+}
+
 /* Result */
 .game__result {
   text-align: center;

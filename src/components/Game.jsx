@@ -121,7 +121,7 @@ function DramaSearch({ onGuess, disabled, exclude }) {
               onMouseDown={() => handleSelect(d)}
               onMouseEnter={() => setActiveIdx(i)}
             >
-              {d.title}
+              {d.title} <span className="drama-search__ko">{d.titleKo}</span>
             </li>
           ))}
         </ul>

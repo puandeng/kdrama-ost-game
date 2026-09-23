@@ -1,0 +1,402 @@
+.actor-game {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 16px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Round indicator */
+.actor-game__round {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Actor card */
+.actor-game__actor-card {
+  text-align: center;
+  padding: 20px 16px;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.actor-game__actor-name {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 4px;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+}
+
+.actor-game__actor-ko {
+  font-size: 1rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.actor-game__actor-img {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  margin-top: 12px;
+  border: 3px solid var(--border);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* Found label */
+.actor-game__found-label {
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* Feedback toast */
+.actor-game__feedback {
+  text-align: center;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  animation: feedback-in 0.2s ease-out;
+}
+
+.actor-game__feedback--correct {
+  background: rgba(52, 211, 153, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.3);
+}
+
+.actor-game__feedback--wrong {
+  background: rgba(248, 113, 113, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.3);
+}
+
+@keyframes feedback-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Drama list */
+.actor-game__drama-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.actor-game__drama-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  animation: row-in 0.25s ease-out;
+}
+
+@keyframes row-in {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.actor-game__drama-row--correct {
+  border-color: rgba(52, 211, 153, 0.4);
+}
+
+.actor-game__drama-row--wrong {
+  border-color: rgba(248, 113, 113, 0.3);
+  opacity: 0.5;
+}
+
+.actor-game__drama-row--missed {
+  border-color: var(--border);
+  opacity: 0.6;
+  border-style: dashed;
+}
+
+.actor-game__drama-title {
+  flex: 1;
+  font-size: 0.85rem;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.actor-game__drama-row--wrong .actor-game__drama-title {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.actor-game__drama-pts {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #34d399;
+  flex-shrink: 0;
+}
+
+.actor-game__drama-x {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #f87171;
+  flex-shrink: 0;
+}
+
+/* Perfect message */
+.actor-game__perfect {
+  text-align: center;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: rgba(52, 211, 153, 0.15);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  color: #34d399;
+  font-weight: 600;
+  font-size: 0.9rem;
+  animation: feedback-in 0.3s ease-out;
+}
+
+/* Actions */
+.actor-game__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.actor-game__btn {
+  flex: 1;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.actor-game__btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.actor-game__btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.actor-game__btn--primary:hover {
+  opacity: 0.9;
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* Role badges */
+.role-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+
+.role-badge--main {
+  background: rgba(96, 165, 250, 0.2);
+  color: #60a5fa;
+}
+
+.role-badge--supporting {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+}
+
+.role-badge--guest {
+  background: rgba(192, 132, 252, 0.2);
+  color: #c084fc;
+}
+
+/* Episode bar */
+.episode-bar {
+  padding: 12px 0;
+}
+
+.episode-bar__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.episode-bar__label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.episode-bar__score {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.episode-bar__segments {
+  display: flex;
+  gap: 2px;
+}
+
+.episode-bar__segment {
+  flex: 1;
+  height: 28px;
+  border-radius: 4px;
+  background: var(--hover);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.55rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  transition: background 0.4s, color 0.4s, box-shadow 0.4s;
+}
+
+.episode-bar__segment--reached {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.episode-bar__segment--current {
+  box-shadow: 0 0 10px rgba(167, 139, 250, 0.6);
+}
+
+/* Final results */
+.actor-game__final {
+  text-align: center;
+  padding: 20px 16px;
+  border-radius: 12px;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  animation: result-in 0.3s ease-out;
+}
+
+@keyframes result-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.actor-game__final-emoji {
+  font-size: 2.5rem;
+  margin: 0 0 4px;
+}
+
+.actor-game__final-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 4px;
+}
+
+.actor-game__final-score {
+  font-size: 0.95rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Summary */
+.actor-game__summary {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.actor-game__summary-actor {
+  background: var(--surface);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.actor-game__summary-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.actor-game__summary-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.actor-game__summary-ko {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.actor-game__summary-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+}
+
+.actor-game__summary-icon {
+  width: 14px;
+  text-align: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.actor-game__summary-row--found .actor-game__summary-icon {
+  color: #34d399;
+}
+
+.actor-game__summary-row--missed .actor-game__summary-icon {
+  color: #f87171;
+}
+
+.actor-game__summary-title {
+  flex: 1;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.actor-game__summary-row--missed .actor-game__summary-title {
+  color: var(--text-muted);
+}
+
+.actor-game__summary-pts {
+  font-weight: 700;
+  color: #34d399;
+  flex-shrink: 0;
+}
