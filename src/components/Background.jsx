@@ -9,6 +9,29 @@ function seededRandom(seed) {
   };
 }
 
+/**
+ * Head outline: wide rounded cranium tapering through the cheeks to a soft chin.
+ * Reads as a face at small scale where a plain ellipse reads as a blob.
+ */
+function headPath(cx, cy, rx, ry) {
+  return [
+    `M${cx - rx},${cy - ry * 0.2}`,
+    `C${cx - rx},${cy - ry * 0.88} ${cx - rx * 0.6},${cy - ry} ${cx},${cy - ry}`,
+    `C${cx + rx * 0.6},${cy - ry} ${cx + rx},${cy - ry * 0.88} ${cx + rx},${cy - ry * 0.2}`,
+    `C${cx + rx},${cy + ry * 0.42} ${cx + rx * 0.5},${cy + ry} ${cx},${cy + ry}`,
+    `C${cx - rx * 0.5},${cy + ry} ${cx - rx},${cy + ry * 0.42} ${cx - rx},${cy - ry * 0.2}`,
+    'Z',
+  ].join(' ');
+}
+
+// Ease-in-out so limb swings read as a pendulum rather than a triangle wave.
+const SWING = {
+  calcMode: 'spline',
+  keyTimes: '0;0.5;1',
+  keySplines: '0.45 0 0.55 1; 0.45 0 0.55 1',
+  repeatCount: 'indefinite',
+};
+
 const ACTOR_IMAGES = [
   'gong-yoo', 'kim-soo-hyun', 'iu', 'lee-min-ho', 'song-joong-ki',
   'park-seo-joon', 'son-ye-jin', 'hyun-bin', 'song-hye-kyo', 'lee-jong-suk',
@@ -107,7 +130,8 @@ export default function Background() {
           </radialGradient>
           {actorFaces.map((face, i) => (
             <pattern key={`face-${i}`} id={`face${i}`} patternUnits="objectBoundingBox" patternContentUnits="objectBoundingBox" width="1" height="1">
-              <image href={`/actors/${face}.jpg`} x="0" y="0" width="1" height="1" preserveAspectRatio="xMidYMid slice" />
+              {/* yMin bias + slight overscan frames the head, not the torso */}
+              <image href={`/actors/${face}.jpg`} x="-0.1" y="-0.06" width="1.2" height="1.2" preserveAspectRatio="xMidYMin slice" />
             </pattern>
           ))}
         </defs>
@@ -274,146 +298,242 @@ export default function Background() {
         <rect x="326" y="272" width="22" height="11" rx="1" fill="#3b3350" stroke="#342e45" strokeWidth="0.3" opacity="0.35" />
         <rect x="352" y="272" width="26" height="11" rx="1" fill="#3e3555" stroke="#342e45" strokeWidth="0.3" opacity="0.35" />
 
-        {/* === Main couple - large, detailed K-drama style, walking right === */}
+        {/* === Main couple - walking right, hands joined between them ===
+             Proportions: head 8u, total 60u => 7.5 heads. Hip at 265 puts
+             legs at ~38% of height. Gait cycle 4.8s matches the 9.8u/s
+             travel speed so feet plant instead of sliding. */}
         <g opacity="0.8">
           <animateTransform attributeName="transform" type="translate" values="-100,0;440,0" dur="55s" repeatCount="indefinite" />
 
-          {/* HIM - tall, long navy wool coat, styled hair, scarf */}
-          {/* Head */}
-          <ellipse cx="178" cy="232" rx="5" ry="5.5" fill="url(#face0)" stroke="rgba(167,139,250,0.3)" strokeWidth="0.4" />
-          {/* Styled hair - textured top, swept side part */}
-          <path d="M173 231 Q174 225 178 224 Q182 225 183 231" fill="#1a1528" />
-          <path d="M174 230 Q176 226 179 226 Q175 228 174 231" fill="#12101e" />
-          {/* Ear hint */}
-          <ellipse cx="183" cy="233" rx="1" ry="1.5" fill="#2a2238" />
-          {/* Neck */}
-          <rect x="176" y="237" width="4" height="3" fill="#2a2238" />
-          {/* Scarf - burgundy, draped */}
-          <path d="M174 239 Q178 242 182 239 L183 244 Q178 246 173 244 Z" fill="#5a2030" />
-          <path d="M175 243 L174 252" stroke="#5a2030" strokeWidth="2" strokeLinecap="round" />
-          {/* Long coat body - navy/dark blue, structured shoulders */}
-          <path d="M171 240 L170 274 L173 274 L174 255 L182 255 L183 274 L186 274 L185 240 Z" fill="#1e2540" />
-          {/* Shoulder structure */}
-          <path d="M170 240 L171 238 L178 239 L185 238 L186 240" fill="#1e2540" stroke="#161d32" strokeWidth="0.3" />
-          {/* Coat lapels */}
-          <path d="M174 240 L178 246 L182 240" fill="#222a45" />
-          <line x1="178" y1="246" x2="178" y2="274" stroke="#161d32" strokeWidth="0.4" />
-          {/* Coat buttons */}
-          <circle cx="178" cy="252" r="0.6" fill="#384060" />
-          <circle cx="178" cy="258" r="0.6" fill="#384060" />
-          <circle cx="178" cy="264" r="0.6" fill="#384060" />
-          {/* Coat pockets */}
-          <line x1="173" y1="258" x2="176" y2="258" stroke="#161d32" strokeWidth="0.4" />
-          <line x1="180" y1="258" x2="183" y2="258" stroke="#161d32" strokeWidth="0.4" />
-          {/* Left arm (away) - slightly bent, hand in pocket */}
-          <path d="M171 241 L168 252 L169 258" stroke="#1e2540" strokeWidth="3" strokeLinecap="round" fill="none" />
-          {/* Right arm - reaching toward her */}
-          <path d="M185 241 L188 252 L190 256" stroke="#1e2540" strokeWidth="3" strokeLinecap="round" fill="none" />
-          {/* Hand */}
-          <circle cx="190" cy="257" r="1.5" fill="#2a2238" />
-          {/* Legs - dark trousers */}
-          <line x1="173" y1="274" x2="172" y2="286" stroke="#18162a" strokeWidth="3" strokeLinecap="round" />
-          <line x1="183" y1="274" x2="184" y2="286" stroke="#18162a" strokeWidth="3" strokeLinecap="round" />
-          {/* Shoes - polished */}
-          <ellipse cx="171.5" cy="287" rx="2.5" ry="1.2" fill="#12101e" />
-          <ellipse cx="184.5" cy="287" rx="2.5" ry="1.2" fill="#12101e" />
+          {/* ---------- HIM: navy wool coat, scarf ---------- */}
+          <g>
+            <animateTransform attributeName="transform" type="translate"
+              values="0,0; 0,-0.6; 0,0" dur="2.4s" {...SWING} />
 
-          {/* HER - slightly shorter, long wavy hair, cream coat, holding his hand */}
-          {/* Head */}
-          <ellipse cx="198" cy="235" rx="4.8" ry="5.2" fill="url(#face1)" stroke="rgba(167,139,250,0.3)" strokeWidth="0.4" />
-          {/* Long wavy hair - flowing down past shoulders */}
-          <path d="M193 234 Q192 240 191 250 Q190.5 255 191 258" stroke="#1a1528" strokeWidth="3" strokeLinecap="round" fill="none" />
-          <path d="M203 234 Q204 240 204.5 250 Q205 255 204.5 257" stroke="#1a1528" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-          <path d="M194 233 Q193 238 192.5 245" stroke="#12101e" strokeWidth="1.5" strokeLinecap="round" fill="none" />
-          {/* Hair top - parted, voluminous */}
-          <path d="M193 233 Q195 228 198 227 Q201 228 203 233" fill="#1a1528" />
-          <path d="M194 232 Q196 229 199 229" stroke="#12101e" strokeWidth="0.5" fill="none" />
-          {/* Ear with small earring */}
-          <ellipse cx="203.5" cy="236" rx="0.8" ry="1.2" fill="#2a2238" />
-          <circle cx="203.5" cy="237.5" r="0.4" fill="#8888aa" />
-          {/* Neck */}
-          <rect x="196" y="240" width="4" height="2.5" fill="#2a2238" />
-          {/* Cream/beige long coat */}
-          <path d="M191 242 L190 272 L193 272 L194 256 L202 256 L203 272 L206 272 L205 242 Z" fill="#4a4438" />
-          {/* Shoulders */}
-          <path d="M190 242 L192 240 L198 241 L204 240 L206 242" fill="#4a4438" stroke="#3d3830" strokeWidth="0.3" />
-          {/* Coat collar - turned up */}
-          <path d="M194 242 L198 246 L202 242" fill="#524c42" />
-          {/* Belt/waist cinch */}
-          <rect x="191" y="255" width="14" height="1.5" rx="0.5" fill="#3d3830" />
-          <circle cx="198" cy="256" r="0.8" fill="#6a6050" />
-          {/* Left arm - holding purse */}
-          <path d="M191 243 L188 254 L189 260" stroke="#4a4438" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-          {/* Small crossbody bag */}
-          <line x1="203" y1="242" x2="189" y2="258" stroke="#3a2028" strokeWidth="0.6" />
-          <rect x="187" y="258" width="4" height="5" rx="1" fill="#3a2028" />
-          {/* Right arm - reaching to hold his hand */}
-          <path d="M205 243 L207 253 L192" stroke="#4a4438" strokeWidth="2.5" strokeLinecap="round" fill="none" />
-          {/* Hand */}
-          <circle cx="192" cy="257" r="1.3" fill="#2a2238" />
-          {/* Held hands together */}
-          <ellipse cx="191" cy="257" rx="2.5" ry="1.8" fill="#2a2238" opacity="0.7" />
-          {/* Skirt below coat */}
-          <path d="M192 272 L190 282 L206 282 L204 272 Z" fill="#2a2535" />
-          {/* Legs */}
-          <line x1="194" y1="282" x2="193.5" y2="288" stroke="#2a2238" strokeWidth="2" strokeLinecap="round" />
-          <line x1="202" y1="282" x2="202.5" y2="288" stroke="#2a2238" strokeWidth="2" strokeLinecap="round" />
-          {/* Ankle boots with slight heel */}
-          <path d="M191.5 288 L191 289.5 L195 289.5 L195 288" fill="#1a1520" />
-          <path d="M200.5 288 L200 289.5 L204 289.5 L204 288" fill="#1a1520" />
+            {/* Far leg (behind coat) */}
+            <g>
+              <animateTransform attributeName="transform" type="rotate"
+                values="13 174.5 264; -13 174.5 264; 13 174.5 264" dur="4.8s" {...SWING} />
+              <path d="M174.5 263 L174 275 L173.6 286" stroke="#141225" strokeWidth="2.6" strokeLinecap="round" fill="none" />
+              <ellipse cx="172.8" cy="287.2" rx="2.5" ry="1.1" fill="#0f0d1a" />
+            </g>
+            {/* Near leg */}
+            <g>
+              <animateTransform attributeName="transform" type="rotate"
+                values="-13 181.5 264; 13 181.5 264; -13 181.5 264" dur="4.8s" {...SWING} />
+              <path d="M181.5 263 L182 275 L182.4 286" stroke="#18162a" strokeWidth="2.8" strokeLinecap="round" fill="none" />
+              <ellipse cx="183.2" cy="287.2" rx="2.6" ry="1.2" fill="#12101e" />
+            </g>
+
+            {/* Hip-length wool coat - shoulders 14u wide, hem at 266 */}
+            <path d="M171.4 241 L170.2 266 L185.8 266 L184.6 241 Z" fill="#1e2540" />
+            <path d="M170.6 242 Q171.6 238.6 174.4 238 L178 239.2 L181.6 238 Q184.4 238.6 185.4 242 Z" fill="#232b4a" stroke="#161d32" strokeWidth="0.3" />
+            {/* Lapels + centre seam */}
+            <path d="M175 239.4 L178 245 L181 239.4 L178 238.4 Z" fill="#263050" />
+            <line x1="178" y1="245" x2="178" y2="266" stroke="#161d32" strokeWidth="0.4" />
+            <circle cx="178" cy="250" r="0.55" fill="#384060" />
+            <circle cx="178" cy="255.5" r="0.55" fill="#384060" />
+            <circle cx="178" cy="261" r="0.55" fill="#384060" />
+            <line x1="173.2" y1="256" x2="175.8" y2="256" stroke="#161d32" strokeWidth="0.4" />
+            <line x1="180.2" y1="256" x2="182.8" y2="256" stroke="#161d32" strokeWidth="0.4" />
+
+            {/* Far arm swings opposite the far leg */}
+            <g>
+              <animateTransform attributeName="transform" type="rotate"
+                values="-11 172.4 241.5; 11 172.4 241.5; -11 172.4 241.5" dur="4.8s" {...SWING} />
+              <path d="M172.4 241.5 L170.6 251 L171.2 258.5" stroke="#1b2138" strokeWidth="2.7" strokeLinecap="round" fill="none" />
+              <circle cx="171.3" cy="259.4" r="1.2" fill="#2a2238" />
+            </g>
+            {/* Near arm stays still - hand is held */}
+            <path d="M184.6 241.5 L187 250.5 L189.4 258.8" stroke="#1e2540" strokeWidth="2.8" strokeLinecap="round" fill="none" />
+
+            {/* Scarf - sits at the collar, single tail tucked into the coat */}
+            <path d="M175.2 238.2 Q178 240.4 180.8 238.2 L181.4 241.2 Q178 243 174.6 241.2 Z" fill="#5a2030" />
+            <path d="M176 241.6 Q175.2 245 175.4 248.6" stroke="#5a2030" strokeWidth="1.1" strokeLinecap="round" fill="none" />
+
+            {/* Neck + head */}
+            <rect x="176.7" y="235.4" width="2.6" height="3.4" fill="#241d30" />
+            <path d={headPath(178, 232, 3.6, 4.2)} fill="url(#face0)" stroke="rgba(167,139,250,0.28)" strokeWidth="0.35" />
+            {/* Swept side-part hair sitting on the cranium */}
+            <path d="M174.3 231 Q174.7 227.2 178 226.9 Q181.5 227.2 181.9 231.3 Q180.3 228.7 176.9 229.3 Q175.2 229.7 174.3 231 Z" fill="#1a1528" />
+            <path d="M175 229.8 Q177 227.6 179.4 227.8 Q176.6 228.8 175 230.4 Z" fill="#12101e" />
+            <ellipse cx="181.7" cy="232.6" rx="0.7" ry="1.1" fill="#2a2238" />
+          </g>
+
+          {/* ---------- HER: cream coat, long waves ---------- */}
+          <g>
+            <animateTransform attributeName="transform" type="translate"
+              values="0,-0.6; 0,0; 0,-0.6" dur="2.4s" {...SWING} />
+
+            {/* Far leg */}
+            <g>
+              <animateTransform attributeName="transform" type="rotate"
+                values="-11 197 265; 11 197 265; -11 197 265" dur="4.8s" {...SWING} />
+              <path d="M197 264 L196.6 277 L196.4 287.4" stroke="#241d30" strokeWidth="2.1" strokeLinecap="round" fill="none" />
+              <path d="M194.6 287.4 L194.4 289.2 L198.4 289.2 L198.4 287.4 Z" fill="#171320" />
+            </g>
+            {/* Near leg */}
+            <g>
+              <animateTransform attributeName="transform" type="rotate"
+                values="11 201.5 265; -11 201.5 265; 11 201.5 265" dur="4.8s" {...SWING} />
+              <path d="M201.5 264 L201.9 277 L202.1 287.4" stroke="#2a2238" strokeWidth="2.2" strokeLinecap="round" fill="none" />
+              <path d="M200.2 287.4 L200 289.2 L204 289.2 L204 287.4 Z" fill="#1a1520" />
+            </g>
+
+            {/* Belted coat - 12u shoulders, hem 266 */}
+            <path d="M193.2 243 L192.2 266 L205.8 266 L204.8 243 Z" fill="#4a4438" />
+            <path d="M192.6 244 Q193.5 241 196 240.4 L199 241.4 L202 240.4 Q204.5 241 205.4 244 Z" fill="#514a3d" stroke="#3d3830" strokeWidth="0.3" />
+            <path d="M196.4 241.6 L199 246.4 L201.6 241.6 L199 240.8 Z" fill="#574f42" />
+            <rect x="192.7" y="254" width="12.6" height="1.4" rx="0.5" fill="#3d3830" />
+            <circle cx="199" cy="254.7" r="0.7" fill="#6a6050" />
+            {/* Skirt peeking below the hem */}
+            <path d="M193.6 266 L192.6 273 L205.4 273 L204.4 266 Z" fill="#2a2535" />
+
+            {/* Far arm stays still - hand is held */}
+            <path d="M193.4 243.5 L191.4 251 L190.6 258.8" stroke="#453f34" strokeWidth="2.4" strokeLinecap="round" fill="none" />
+            {/* Near arm swings, crossbody bag rides on it */}
+            <g>
+              <animateTransform attributeName="transform" type="rotate"
+                values="11 204.6 243.5; -11 204.6 243.5; 11 204.6 243.5" dur="4.8s" {...SWING} />
+              <path d="M204.6 243.5 L206.6 251.5 L206.2 259" stroke="#4a4438" strokeWidth="2.4" strokeLinecap="round" fill="none" />
+              <circle cx="206.2" cy="259.8" r="1.1" fill="#2a2238" />
+            </g>
+            <line x1="203.4" y1="242.4" x2="194.6" y2="258" stroke="#3a2028" strokeWidth="0.55" />
+            <rect x="192.9" y="257.6" width="3.4" height="4.4" rx="1" fill="#3a2028" />
+
+            {/* Hair mass sits BEHIND the face - the face path covers the middle,
+                leaving a rim at the crown and two locks hanging past the jaw. */}
+            <path d="M199 230.6
+                     C201.9 230.6 202.8 232.8 202.8 236.2
+                     C202.8 239.8 203.1 242.8 202.6 245
+                     C202.4 246.1 201.4 246.1 201.2 245
+                     C200.9 242.8 201 240.2 201 238
+                     L197 238
+                     C197 240.2 197.1 242.8 196.8 245
+                     C196.6 246.1 195.6 246.1 195.4 245
+                     C194.9 242.8 195.2 239.8 195.2 236.2
+                     C195.2 232.8 196.1 230.6 199 230.6 Z" fill="#1a1528" />
+            {/* Neck + head */}
+            <rect x="197.8" y="238.8" width="2.5" height="3" fill="#241d30" />
+            <path d={headPath(199, 235.5, 3.4, 4)} fill="url(#face1)" stroke="rgba(167,139,250,0.28)" strokeWidth="0.35" />
+            {/* Centre-parted fringe over the forehead */}
+            <path d="M195.7 234.4 Q196.3 231 199 230.6 Q201.8 231 202.3 234.5 Q201.1 232 199 232.2 Q196.9 232 195.7 234.4 Z" fill="#1a1528" />
+            <circle cx="202.6" cy="237.6" r="0.35" fill="#8888aa" />
+          </g>
+
+          {/* Joined hands between the two */}
+          <ellipse cx="190.1" cy="259.6" rx="1.9" ry="1.5" fill="#2a2238" opacity="0.85" />
         </g>
 
-        {/* === Solo figure - woman in beret, walking other way === */}
+        {/* === Solo figure - beret, coffee, walking left (6.9 heads) === */}
         <g opacity="0.55">
           <animateTransform attributeName="transform" type="translate" values="460,0;-100,0" dur="65s" repeatCount="indefinite" />
-          {/* Head */}
-          <ellipse cx="300" cy="240" rx="4" ry="4.5" fill="url(#face2)" stroke="rgba(167,139,250,0.3)" strokeWidth="0.4" />
-          {/* Beret */}
-          <ellipse cx="300" cy="237" rx="5.5" ry="2.5" fill="#4a2838" />
-          <ellipse cx="300" cy="238" rx="4" ry="1.5" fill="#552d40" />
-          {/* Hair - bob cut peeking out */}
-          <path d="M296 240 Q295 245 295.5 248" stroke="#1a1528" strokeWidth="2" strokeLinecap="round" fill="none" />
-          <path d="M304 240 Q305 244 304.5 247" stroke="#1a1528" strokeWidth="1.8" strokeLinecap="round" fill="none" />
-          {/* Neck */}
-          <rect x="298" y="244" width="4" height="2" fill="#2a2238" />
-          {/* Turtleneck + cardigan */}
-          <rect x="297" y="244" width="6" height="3" rx="1" fill="#3a3548" />
-          <path d="M294 246 L293 268 L296 268 L297 255 L303 255 L304 268 L307 268 L306 246 Z" fill="#2d3040" />
-          {/* Cardigan open front */}
-          <line x1="300" y1="248" x2="300" y2="268" stroke="#252838" strokeWidth="0.4" />
-          {/* Arms */}
-          <path d="M294 247 L291 258 L292 262" stroke="#2d3040" strokeWidth="2.2" strokeLinecap="round" fill="none" />
-          <path d="M306 247 L309 256 L308 262" stroke="#2d3040" strokeWidth="2.2" strokeLinecap="round" fill="none" />
-          {/* Hands - holding coffee cup */}
-          <circle cx="292" cy="263" r="1.2" fill="#2a2238" />
-          <rect x="290.5" y="259" width="3" height="4" rx="1" fill="#e8ddd0" />
-          {/* Wide-leg pants */}
-          <path d="M294 268 L293 284 L298 284 L299 272 L301 272 L302 284 L307 284 L306 268 Z" fill="#1e1a2a" />
-          {/* Shoes - loafers */}
-          <ellipse cx="295.5" cy="285" rx="2.5" ry="1" fill="#1a1520" />
-          <ellipse cx="304.5" cy="285" rx="2.5" ry="1" fill="#1a1520" />
+          <g>
+            <animateTransform attributeName="transform" type="translate"
+              values="0,0; 0,-0.5; 0,0" dur="2.2s" {...SWING} />
+
+            {/* Legs */}
+            <g>
+              <animateTransform attributeName="transform" type="rotate"
+                values="12 298 265; -12 298 265; 12 298 265" dur="4.4s" {...SWING} />
+              <path d="M298 264 L297.4 275 L297 284.6" stroke="#1e1a2a" strokeWidth="2.9" strokeLinecap="round" fill="none" />
+              <ellipse cx="296.2" cy="285.4" rx="2.4" ry="1" fill="#1a1520" />
+            </g>
+            <g>
+              <animateTransform attributeName="transform" type="rotate"
+                values="-12 302 265; 12 302 265; -12 302 265" dur="4.4s" {...SWING} />
+              <path d="M302 264 L302.6 275 L303 284.6" stroke="#221e30" strokeWidth="3" strokeLinecap="round" fill="none" />
+              <ellipse cx="303.8" cy="285.4" rx="2.4" ry="1" fill="#1a1520" />
+            </g>
+
+            {/* Cardigan over turtleneck - 11u shoulders, hem 266 */}
+            <path d="M294.8 247 L294 266 L306 266 L305.2 247 Z" fill="#2d3040" />
+            <path d="M294.4 248 Q295.2 245.2 297.4 244.6 L300 245.6 L302.6 244.6 Q304.8 245.2 305.6 248 Z" fill="#333648" stroke="#252838" strokeWidth="0.3" />
+            <rect x="297.6" y="243.8" width="4.8" height="2.6" rx="1" fill="#3a3548" />
+            <line x1="300" y1="246.4" x2="300" y2="266" stroke="#252838" strokeWidth="0.4" />
+
+            {/* Free arm swings; cup arm is held steady at the chest */}
+            <g>
+              <animateTransform attributeName="transform" type="rotate"
+                values="-10 305.4 247.5; 10 305.4 247.5; -10 305.4 247.5" dur="4.4s" {...SWING} />
+              <path d="M305.4 247.5 L307.2 255 L306.8 261.4" stroke="#2d3040" strokeWidth="2.1" strokeLinecap="round" fill="none" />
+              <circle cx="306.8" cy="262.2" r="1.1" fill="#2a2238" />
+            </g>
+            <path d="M294.6 247.5 L292.6 254 L294.4 258.4" stroke="#2d3040" strokeWidth="2.1" strokeLinecap="round" fill="none" />
+            <rect x="293.2" y="254.6" width="2.8" height="3.8" rx="0.9" fill="#e8ddd0" />
+            <circle cx="294.8" cy="258.8" r="1.1" fill="#2a2238" />
+
+            {/* Jaw-length bob, drawn behind the face */}
+            <path d="M300 237.2
+                     C302.4 237.2 303.3 239 303.3 241.4
+                     C303.3 243.4 303.4 244.8 303 245.8
+                     C302.8 246.4 302 246.4 301.8 245.8
+                     C301.6 244.8 301.7 243.2 301.7 241.8
+                     L298.3 241.8
+                     C298.3 243.2 298.4 244.8 298.2 245.8
+                     C298 246.4 297.2 246.4 297 245.8
+                     C296.6 244.8 296.7 243.4 296.7 241.4
+                     C296.7 239 297.6 237.2 300 237.2 Z" fill="#1a1528" />
+            {/* Neck + head */}
+            <rect x="298.9" y="243.4" width="2.2" height="2.6" fill="#241d30" />
+            <path d={headPath(300, 241, 3, 3.5)} fill="url(#face2)" stroke="rgba(167,139,250,0.28)" strokeWidth="0.35" />
+            {/* Beret - seated on the crown, tilted, brim just past the hairline */}
+            <g transform="rotate(-9 300 238)">
+              <path d="M297.5 238 Q298.1 236 300.1 235.9 Q302.1 236.1 302.5 238 Z" fill="#552d40" />
+              <ellipse cx="300" cy="237.9" rx="3.3" ry="1.05" fill="#4a2838" />
+            </g>
+          </g>
         </g>
 
-        {/* === Background couple - smaller, further away === */}
+        {/* === Background couple - distant, arms linked (7.1 heads) === */}
         <g opacity="0.4">
           <animateTransform attributeName="transform" type="translate" values="-50,0;440,0" dur="75s" repeatCount="indefinite" />
-          {/* Him - shorter figure due to distance */}
-          <ellipse cx="75" cy="252" rx="3" ry="3.3" fill="url(#face3)" />
-          <path d="M72 255 L71.5 268 L74 268 L74.5 261 L75.5 261 L76 268 L78.5 268 L78 255 Z" fill="#1e2538" />
-          <line x1="73" y1="268" x2="72.5" y2="276" stroke="#18162a" strokeWidth="2" strokeLinecap="round" />
-          <line x1="77" y1="268" x2="77.5" y2="276" stroke="#18162a" strokeWidth="2" strokeLinecap="round" />
-          <ellipse cx="72" cy="276.5" rx="2" ry="0.8" fill="#12101e" />
-          <ellipse cx="78" cy="276.5" rx="2" ry="0.8" fill="#12101e" />
-          {/* Her */}
-          <ellipse cx="84" cy="253.5" rx="2.8" ry="3" fill="url(#face4)" />
-          <path d="M81 253 Q80 258 80.5 262" stroke="#1a1528" strokeWidth="1.8" fill="none" strokeLinecap="round" />
-          <path d="M87 253 Q88 257 87.5 261" stroke="#1a1528" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-          <path d="M81 256 L80.5 268 L83 268 L83.5 262 L84.5 262 L85 268 L87.5 268 L87 256 Z" fill="#3d3838" />
-          <path d="M82 268 L80.5 278 L87.5 278 L86 268 Z" fill="#1e1a2a" />
-          <line x1="83" y1="278" x2="82.5" y2="282" stroke="#1e1a2a" strokeWidth="1.5" strokeLinecap="round" />
-          <line x1="86" y1="278" x2="86.5" y2="282" stroke="#1e1a2a" strokeWidth="1.5" strokeLinecap="round" />
-          {/* Arms linked */}
-          <line x1="78" y1="261" x2="81" y2="261" stroke="#1e1a2a" strokeWidth="1.2" strokeLinecap="round" />
+          <g>
+            <animateTransform attributeName="transform" type="translate"
+              values="0,0; 0,-0.35; 0,0" dur="1.6s" {...SWING} />
+
+            {/* Him */}
+            <g>
+              <animateTransform attributeName="transform" type="rotate"
+                values="10 73.6 267; -10 73.6 267; 10 73.6 267" dur="3.2s" {...SWING} />
+              <line x1="73.6" y1="266.4" x2="73.1" y2="276.8" stroke="#18162a" strokeWidth="1.8" strokeLinecap="round" />
+              <ellipse cx="72.6" cy="277.4" rx="1.8" ry="0.7" fill="#12101e" />
+            </g>
+            <g>
+              <animateTransform attributeName="transform" type="rotate"
+                values="-10 76.4 267; 10 76.4 267; -10 76.4 267" dur="3.2s" {...SWING} />
+              <line x1="76.4" y1="266.4" x2="76.9" y2="276.8" stroke="#18162a" strokeWidth="1.9" strokeLinecap="round" />
+              <ellipse cx="77.4" cy="277.4" rx="1.8" ry="0.7" fill="#12101e" />
+            </g>
+            <path d="M72.4 254.4 L71.9 267 L78.1 267 L77.6 254.4 Z" fill="#1e2538" />
+            <path d="M72.1 255 Q72.7 253.4 74 253 L75 253.6 L76 253 Q77.3 253.4 77.9 255 Z" fill="#232b45" />
+            <rect x="74.3" y="252.4" width="1.4" height="1.6" fill="#241d30" />
+            <path d={headPath(75, 251, 1.8, 2)} fill="url(#face3)" />
+            <path d="M73.3 250.6 Q73.6 248.8 75 248.6 Q76.5 248.8 76.7 250.7 Z" fill="#1a1528" />
+
+            {/* Her */}
+            <g>
+              <animateTransform attributeName="transform" type="rotate"
+                values="-9 82.8 268; 9 82.8 268; -9 82.8 268" dur="3.2s" {...SWING} />
+              <line x1="82.8" y1="267.4" x2="82.5" y2="277.4" stroke="#1e1a2a" strokeWidth="1.5" strokeLinecap="round" />
+            </g>
+            <g>
+              <animateTransform attributeName="transform" type="rotate"
+                values="9 85.4 268; -9 85.4 268; 9 85.4 268" dur="3.2s" {...SWING} />
+              <line x1="85.4" y1="267.4" x2="85.7" y2="277.4" stroke="#1e1a2a" strokeWidth="1.5" strokeLinecap="round" />
+            </g>
+            <path d="M81.6 255.4 L81.2 268 L86.8 268 L86.4 255.4 Z" fill="#3d3838" />
+            <path d="M82 268 L81.2 274 L86.8 274 L86 268 Z" fill="#1e1a2a" />
+            <path d="M81.4 256 Q81.9 254.4 83 254 L84 254.6 L85 254 Q86.1 254.4 86.6 256 Z" fill="#454040" />
+            <rect x="83.4" y="253.4" width="1.3" height="1.6" fill="#241d30" />
+            <path d={headPath(84, 252, 1.7, 1.9)} fill="url(#face4)" />
+            <path d="M82.4 251.8 Q82.7 250 84 249.8 Q85.4 250 85.6 251.9 Z" fill="#1a1528" />
+            <path d="M82.4 252.4 Q81.9 256 82.2 258.6" stroke="#1a1528" strokeWidth="1" strokeLinecap="round" fill="none" />
+            <path d="M85.6 252.4 Q86.1 255.6 85.8 258.2" stroke="#1a1528" strokeWidth="0.9" strokeLinecap="round" fill="none" />
+
+            {/* Linked arms - static, since they're holding on */}
+            <path d="M77.6 257 L80 259.4 L81.6 258.6" stroke="#1e2538" strokeWidth="1.1" strokeLinecap="round" fill="none" />
+          </g>
         </g>
 
         {/* Fireflies */}
