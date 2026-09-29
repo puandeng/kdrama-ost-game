@@ -1,0 +1,278 @@
+.synopsis-game {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 16px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.synopsis-game__round {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.synopsis-game__card {
+  padding: 20px 16px;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.synopsis-game__hint-count {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 12px;
+  letter-spacing: 0.3px;
+}
+
+.synopsis-game__text {
+  font-size: 1.05rem;
+  line-height: 1.75;
+  color: var(--text);
+  margin: 0;
+}
+
+.synopsis-game__blank {
+  display: inline-block;
+  min-width: 60px;
+  border-bottom: 2px solid var(--accent);
+  margin: 0 2px;
+  padding: 0 4px;
+  text-align: center;
+  color: transparent;
+  font-weight: 600;
+  transition: color 0.4s, border-color 0.4s, background 0.4s;
+  vertical-align: baseline;
+}
+
+.synopsis-game__blank--revealed {
+  color: var(--accent);
+  border-bottom-color: transparent;
+  background: rgba(167, 139, 250, 0.12);
+  border-radius: 4px;
+  animation: blank-reveal 0.4s ease-out;
+}
+
+@keyframes blank-reveal {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.synopsis-game__answer {
+  text-align: center;
+  margin-top: 16px;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  animation: answer-in 0.3s ease-out;
+}
+
+.synopsis-game__answer--correct {
+  background: rgba(52, 211, 153, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.3);
+}
+
+.synopsis-game__answer--wrong {
+  background: rgba(248, 113, 113, 0.1);
+  color: var(--text-muted);
+  border: 1px solid rgba(248, 113, 113, 0.2);
+}
+
+.synopsis-game__answer-ko {
+  font-weight: 500;
+  font-size: 0.9rem;
+  opacity: 0.7;
+  margin-left: 6px;
+}
+
+@keyframes answer-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* Feedback toast */
+.synopsis-game__feedback {
+  text-align: center;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  animation: feedback-in 0.2s ease-out;
+}
+
+.synopsis-game__feedback--correct {
+  background: rgba(52, 211, 153, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.3);
+}
+
+.synopsis-game__feedback--wrong {
+  background: rgba(248, 113, 113, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.3);
+}
+
+@keyframes feedback-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Wrong guesses */
+.synopsis-game__wrong-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.synopsis-game__wrong-chip {
+  font-size: 0.75rem;
+  padding: 3px 10px;
+  border-radius: 12px;
+  background: rgba(248, 113, 113, 0.1);
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  text-decoration: line-through;
+}
+
+/* Actions */
+.synopsis-game__actions {
+  display: flex;
+  gap: 8px;
+}
+
+.synopsis-game__btn {
+  flex: 1;
+  padding: 10px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.synopsis-game__btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.synopsis-game__btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.synopsis-game__btn--primary:hover {
+  opacity: 0.9;
+  border-color: var(--accent);
+  color: #fff;
+}
+
+/* Score bar */
+.synopsis-game__score-bar {
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--accent);
+  padding: 8px 0;
+}
+
+/* Final results */
+.synopsis-game__final {
+  text-align: center;
+  padding: 20px 16px;
+  border-radius: 12px;
+  background: var(--surface);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  animation: answer-in 0.3s ease-out;
+}
+
+.synopsis-game__final-emoji {
+  font-size: 2.5rem;
+  margin: 0 0 4px;
+}
+
+.synopsis-game__final-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 4px;
+}
+
+.synopsis-game__final-score {
+  font-size: 0.95rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Summary */
+.synopsis-game__summary {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.synopsis-game__summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--surface);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+}
+
+.synopsis-game__summary-header {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.synopsis-game__summary-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.synopsis-game__summary-ko {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.synopsis-game__summary-pts {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #34d399;
+  flex-shrink: 0;
+}
+
+.synopsis-game__summary-pts--zero {
+  color: var(--text-muted);
+}

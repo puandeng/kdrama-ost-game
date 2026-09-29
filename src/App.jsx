@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import Game from './components/Game';
 import ActorGame from './components/ActorGame';
+import SynopsisGame from './components/SynopsisGame';
 import Background from './components/Background';
 import './App.css';
 
 const SUBTITLES = {
   ost: 'Guess the K-drama from its OST — you start with just 0.75 seconds!',
   actor: 'Name K-dramas an actor/actress appeared in — obscure roles score more!',
+  synopsis: 'Guess the K-drama from its redacted synopsis — fewer hints = more points!',
 };
 
 function App() {
@@ -31,10 +33,18 @@ function App() {
           >
             Actor/Actress Quiz
           </button>
+          <button
+            className={`app__tab${tab === 'synopsis' ? ' app__tab--active' : ''}`}
+            onClick={() => setTab('synopsis')}
+          >
+            Synopsis Guess
+          </button>
         </nav>
       </header>
       <main className="app__main">
-        {tab === 'ost' ? <Game /> : <ActorGame />}
+        {tab === 'ost' && <Game />}
+        {tab === 'actor' && <ActorGame />}
+        {tab === 'synopsis' && <SynopsisGame />}
       </main>
     </div>
   );
