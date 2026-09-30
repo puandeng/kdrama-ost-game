@@ -1,4 +1,4 @@
-export const DURATIONS = [0.75, 1.5, 5, 10];
+export const DURATIONS = [0.2, 0.5, 1, 3, 5, 10];
 export const MAX_GUESSES = DURATIONS.length;
 
 export const DRAMAS = [
@@ -9,6 +9,7 @@ export const DRAMAS = [
     year: 2016,
     ost: { title: 'Stay With Me', artist: 'Chanyeol & Punch' },
     audio: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/e6/e2/fe/e6e2fe00-18ba-5139-fa00-64f74640a254/mzaf_1562327115195278475.plus.aac.p.m4a',
+    startAt: 0.2,
   },
   {
     id: 'crash-landing',
@@ -17,6 +18,7 @@ export const DRAMAS = [
     year: 2019,
     ost: { title: 'Flower', artist: 'Yoon Mi-rae' },
     audio: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/97/d7/f1/97d7f174-a692-7871-dc70-d21e7ea0f714/mzaf_6796724198171128171.plus.aac.p.m4a',
+    startAt: 0.08,
   },
   {
     id: 'descendants',
@@ -49,6 +51,7 @@ export const DRAMAS = [
     year: 2019,
     ost: { title: 'Another Day', artist: 'Monday Kiz & Punch' },
     audio: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/f6/de/15/f6de1528-a851-64dc-3a94-62ef96a934a6/mzaf_12523717116514966610.plus.aac.p.m4a',
+    startAt: 0.09,
   },
   {
     id: 'reply-1988',
@@ -73,6 +76,7 @@ export const DRAMAS = [
     year: 2021,
     ost: { title: 'Adrenaline', artist: 'Solar' },
     audio: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/2d/a5/db/2da5db3e-843b-783d-ce5a-df70ef71b453/mzaf_16528217304358809466.plus.aac.p.m4a',
+    startAt: 0.43,
   },
   {
     id: 'hospital-playlist',
@@ -81,7 +85,7 @@ export const DRAMAS = [
     year: 2020,
     ost: { title: 'Aloha', artist: 'Jo Jung-suk' },
     audio: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fc/3a/bd/fc3abdf5-30da-ef9c-3530-9daff24b64cf/mzaf_3711821529661274546.plus.aac.p.m4a',
-    startAt: 0.9,
+    startAt: 1.15,
   },
   {
     id: 'start-up',
@@ -98,7 +102,7 @@ export const DRAMAS = [
     year: 2020,
     ost: { title: 'Love So Fine', artist: 'Cha Eun-woo' },
     audio: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7a/e3/be/7ae3be39-59ea-da6c-21d4-61ad264df814/mzaf_12432405275180848638.plus.aac.p.m4a',
-    startAt: 1.04,
+    startAt: 1.45,
   },
   {
     id: 'business-proposal',
@@ -131,6 +135,7 @@ export const DRAMAS = [
     year: 2021,
     ost: { title: 'Romantic Sunday', artist: 'Car, the Garden' },
     audio: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/5e/99/66/5e9966fc-aeaf-6550-b08b-59d69a48866c/mzaf_14372668295671625882.plus.aac.p.m4a',
+    startAt: 0.3,
   },
   {
     id: 'boys-over-flowers',
@@ -195,6 +200,7 @@ export const DRAMAS = [
     year: 2024,
     ost: { title: 'Love You With All My Heart', artist: 'Crush' },
     audio: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/47/3a/b2/473ab250-b9f3-3e18-b7bb-9acf92fce70b/mzaf_6163453806696420355.plus.aac.p.m4a',
+    startAt: 0.31,
   },
   {
     id: 'alchemy-of-souls',
@@ -203,6 +209,7 @@ export const DRAMAS = [
     year: 2022,
     ost: { title: 'Raindrops', artist: 'Gummy' },
     audio: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/55/f9/85/55f985ae-9e38-53e1-4ad1-f67fb4f0d809/mzaf_8590510000044437368.plus.aac.p.m4a',
+    startAt: 0.34,
   },
   {
     id: 'my-mister',
@@ -211,7 +218,6 @@ export const DRAMAS = [
     year: 2018,
     ost: { title: 'Grown Ups', artist: 'Sondia' },
     audio: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9d/f0/b0/9df0b070-2fdb-46ed-a7df-967b93e659ff/mzaf_18401009264967321755.plus.aac.p.m4a',
-    startAt: 1.7,
   },
   {
     id: 'squid-game',
@@ -236,6 +242,7 @@ export const DRAMAS = [
     year: 2019,
     ost: { title: 'By Chance', artist: 'Lee Nyeom' },
     audio: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/52/61/b5/5261b565-16ad-cd9f-94d9-a53e63bfab1c/mzaf_14508792156764031348.plus.aac.p.m4a',
+    startAt: 0.15,
   },
 ];
 

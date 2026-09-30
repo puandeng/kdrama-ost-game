@@ -127,13 +127,15 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 14px;
+  /* Tightened when the game went from 4 guesses to 6 - the taller stack was
+     pushing the guess input below the fold on small screens. */
+  padding: 7px 14px;
   border-radius: 8px;
   border: 1px solid var(--border);
   background: var(--surface);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  min-height: 20px;
+  min-height: 18px;
   transition: border-color 0.2s;
 }
 
