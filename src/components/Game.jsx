@@ -201,19 +201,33 @@ export default function Game() {
 
     clearTimeout(timerRef.current);
     audio.pause();
-    audio.currentTime = 0;
 
+    // A few previews open on silence or a fade-in, which made the 0.75s first
+    // guess unwinnable. startAt seeks past that to where the clip is audible.
+    const startAt = drama.startAt ?? 0;
     const dur = gameOver ? 10 : currentDuration;
-    audio.play().then(() => {
-      setPlaying(true);
-      timerRef.current = setTimeout(() => {
-        audio.pause();
-        setPlaying(false);
-      }, dur * 1000);
-    }).catch((err) => {
-      console.error('Play failed:', err);
-      setAudioError(true);
-    });
+
+    const begin = () => {
+      // Seeking before metadata exists is silently ignored, which would play
+      // the silent lead-in anyway on a cold first click.
+      audio.currentTime = startAt;
+      audio.play().then(() => {
+        setPlaying(true);
+        timerRef.current = setTimeout(() => {
+          audio.pause();
+          setPlaying(false);
+        }, dur * 1000);
+      }).catch((err) => {
+        console.error('Play failed:', err);
+        setAudioError(true);
+      });
+    };
+
+    if (startAt === 0 || audio.readyState >= 1 /* HAVE_METADATA */) {
+      begin();
+    } else {
+      audio.addEventListener('loadedmetadata', begin, { once: true });
+    }
   }
 
   function handleGuess(dramaResult) {

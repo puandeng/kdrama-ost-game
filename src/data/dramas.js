@@ -81,6 +81,7 @@ export const DRAMAS = [
     year: 2020,
     ost: { title: 'Aloha', artist: 'Jo Jung-suk' },
     audio: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/fc/3a/bd/fc3abdf5-30da-ef9c-3530-9daff24b64cf/mzaf_3711821529661274546.plus.aac.p.m4a',
+    startAt: 0.9,
   },
   {
     id: 'start-up',
@@ -97,6 +98,7 @@ export const DRAMAS = [
     year: 2020,
     ost: { title: 'Love So Fine', artist: 'Cha Eun-woo' },
     audio: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/7a/e3/be/7ae3be39-59ea-da6c-21d4-61ad264df814/mzaf_12432405275180848638.plus.aac.p.m4a',
+    startAt: 1.04,
   },
   {
     id: 'business-proposal',
@@ -209,6 +211,7 @@ export const DRAMAS = [
     year: 2018,
     ost: { title: 'Grown Ups', artist: 'Sondia' },
     audio: 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/9d/f0/b0/9df0b070-2fdb-46ed-a7df-967b93e659ff/mzaf_18401009264967321755.plus.aac.p.m4a',
+    startAt: 1.7,
   },
   {
     id: 'squid-game',

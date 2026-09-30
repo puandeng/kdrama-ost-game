@@ -25,3 +25,7 @@ public/audio/*.mp3
 *.njsproj
 *.sln
 *.sw?
+.vercel
+.env*
+
+__pycache__/
