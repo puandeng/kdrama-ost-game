@@ -272,11 +272,39 @@ export function searchDramas(query, index) {
     .slice(0, 8);
 }
 
+/**
+ * Shuffled bag: deal through every drama once before any repeats.
+ *
+ * Picking uniformly at random let a song come back while others had never
+ * played at all. Instead we shuffle all indices, deal from the end, and
+ * reshuffle only once the bag is empty.
+ */
+let bag = [];
+
+// Fisher-Yates. The `sort(() => Math.random() - 0.5)` idiom is biased - it
+// hands an inconsistent comparator to a sort that assumes a total order.
+function shuffled(items) {
+  const a = [...items];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function refillBag(avoidFirst) {
+  bag = shuffled(DRAMAS.map((_, i) => i));
+  // A fresh bag can open on the same drama the last one closed with, which
+  // would read as a repeat. Swap it deeper in rather than reshuffling.
+  if (TOTAL_DRAMAS > 1 && bag[bag.length - 1] === avoidFirst) {
+    const j = Math.floor(Math.random() * (bag.length - 1));
+    [bag[bag.length - 1], bag[j]] = [bag[j], bag[bag.length - 1]];
+  }
+}
+
 export function getRandomPuzzle(excludeIdx) {
-  let idx;
-  do {
-    idx = Math.floor(Math.random() * TOTAL_DRAMAS);
-  } while (idx === excludeIdx && TOTAL_DRAMAS > 1);
+  if (bag.length === 0) refillBag(excludeIdx);
+  const idx = bag.pop();
   return { drama: DRAMAS[idx], index: idx };
 }
 
